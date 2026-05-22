@@ -6,20 +6,20 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
-      /* Buttons ko ek sath ek box mein rakhne ke liye container */
+      /* Buttons ka container screen ke neeche center mein rahega */
       .button-container {
         position: absolute;
-        bottom: 10%;
+        bottom: 8%;
         left: 50%;
         transform: translateX(-50%);
-        display: none; /* Shuru mein chhupa rahega */
+        display: none; /* Shuru mein chhupa rahega, scan hone par dikhega */
         flex-direction: column;
-        gap: 10px; /* Buttons ke beech ki doori */
+        gap: 10px;
         z-index: 999;
         width: 220px;
       }
 
-      /* Sabhi buttons ka common style */
+      /* Buttons ki sundar styling */
       .ar-btn {
         padding: 12px 20px;
         color: white;
@@ -37,20 +37,9 @@
         text-decoration: none;
       }
 
-      /* Call button (Normal Green) */
-      .btn-call {
-        background-color: #2baf55;
-      }
-
-      /* WhatsApp button (Teal Green) */
-      .btn-whatsapp {
-        background-color: #25D366;
-      }
-
-      /* Website button (Blue) */
-      .btn-web {
-        background-color: #007AFF;
-      }
+      .btn-call { background-color: #2baf55; }
+      .btn-whatsapp { background-color: #25D366; }
+      .btn-web { background-color: #007AFF; }
     </style>
   </head>
   <body>
@@ -63,45 +52,56 @@
     </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      
+      <!-- Video file ko load karne ke liye assets zone -->
+      <a-assets>
+        <video id="card-video" src="./videoplayback.mp4" preload="auto" loop="true" playsinline webkit-playsinline></video>
+      </a-assets>
+
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- Target milne par kya dikhana hai -->
       <a-entity id="my-target" mindar-image-target="targetIndex: 0">
-        <!-- Photo ke upar dikhne wali ring -->
-        <a-ring color="#007AFF" radius-inner="0.4" radius-outer="0.45" position="0 0 0.1"
-                animation="property: scale; to: 1.1 1.1 1.1; dur: 1200; dir: alternate; loop: true"></a-ring>
+        <!-- Photo ke upar video chalegi (Aap iska width aur height video ke hisab se badal sakte hain) -->
+        <a-video src="#card-video" width="1" height="0.56" position="0 0 0" rotation="0 0 0"></a-video>
       </a-entity>
+
     </a-scene>
 
     <script>
       const targetEntity = document.querySelector('#my-target');
       const btnGroup = document.querySelector('#btn-group');
+      const videoElement = document.querySelector('#card-video');
+      
       const callBtn = document.querySelector('#call-btn');
       const waBtn = document.querySelector('#wa-btn');
       const webBtn = document.querySelector('#web-btn');
 
-      // Target milne par buttons dikhein
+      // Jaise hi photo scan hogi: video chalegi aur buttons dikhenge
       targetEntity.addEventListener("targetFound", event => {
+        videoElement.play();
         btnGroup.style.display = "flex";
       });
 
-      // Target hatne par buttons chhup jayein
+      // Jaise hi camera hatega: video pause aur buttons chhip jayenge
       targetEntity.addEventListener("targetLost", event => {
+        videoElement.pause();
         btnGroup.style.display = "none";
       });
 
-      // 1. Call button ka kaam (Yeh iFrame ke andar bhi kaam karta hai)
+      // 1. Call Button Action
       callBtn.addEventListener("click", () => {
-        window.location.href = "tel:+918129848820"; // Apna number dalein
+        window.location.href = "tel:+918129848820"; // Apna phone number dalein
       });
 
-      // 2. WhatsApp button ka kaam (Zabardasti naye tab mein kholne ke liye)
+      // 2. WhatsApp Button Action (iFrame se bahar nikalne ke liye _top)
       waBtn.addEventListener("click", () => {
-        window.open("https://wa.me/918129848820", "_top"); // _top se iFrame toot jayega
+        window.open("https://wa.me/918129848820", "_top"); // Apna WhatsApp number dalein
       });
 
-      // 3. Website button ka kaam
+      // 3. Website Button Action
       webBtn.addEventListener("click", () => {
-        window.open("https://surabhkranti.blogspot.com/2026/04/images.html"); // _top se website poore screen par khulegi
+        window.open("https://surabhkranti.blogspot.com/2026/04/images.html"); // Apna blog/website link dalein
       });
     </script>
   </body>
