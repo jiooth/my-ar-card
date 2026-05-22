@@ -6,57 +6,89 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
     
     <style>
-      /* Hum ek invisible ya sunder button HTML se bana rahe hain jo AR ke upar sahi se click ho sake */
-      .ar-button {
+      /* Buttons ko ek sath ek box mein rakhne ke liye container */
+      .button-container {
         position: absolute;
-        bottom: 15%;
+        bottom: 12%;
         left: 50%;
         transform: translateX(-50%);
-        padding: 12px 24px;
-        background-color: #25D366;
+        display: none; /* Shuru mein chhupa rahega */
+        flex-direction: column;
+        gap: 12px; /* Dono buttons ke beech ki doori */
+        z-index: 999;
+        width: 200px;
+      }
+
+      /* Dono buttons ka common style */
+      .ar-btn {
+        padding: 12px 20px;
         color: white;
         border: none;
         border-radius: 25px;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bold;
-        display: none; /* Shuru mein chhupa rahega */
-        z-index: 999;
+        cursor: pointer;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      /* Call button ka alag rang (Green) */
+      .btn-call {
+        background-color: #25D366;
+      }
+
+      /* Website button ka alag rang (Blue/Professional) */
+      .btn-web {
+        background-color: #007AFF;
       }
     </style>
   </head>
   <body>
-    <!-- HTML Button jo user ko screen par dikhega -->
-    <button id="call-action-btn" class="ar-button">📞 CALL ME NOW</button>
+
+    <!-- Dono Buttons ka Container -->
+    <div id="btn-group" class="button-container">
+      <button id="call-btn" class="ar-btn btn-call">📞 Call Me</button>
+      <button id="web-btn" class="ar-btn btn-web">🌐 Visit Website</button>
+    </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Jab camera photo ko pehchanega -->
       <a-entity id="my-target" mindar-image-target="targetIndex: 0">
-        <!-- Photo ke upar sirf ek sunder 3D ring ya design dikhega tracker ke roop mein -->
-        <a-ring color="#25D366" radius-inner="0.4" radius-outer="0.5" position="0 0 0.1"
-                animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true"></a-ring>
+        <!-- Photo ke upar dikhne wali ring -->
+        <a-ring color="#007AFF" radius-inner="0.4" radius-outer="0.45" position="0 0 0.1"
+                animation="property: scale; to: 1.1 1.1 1.1; dur: 1200; dir: alternate; loop: true"></a-ring>
       </a-entity>
     </a-scene>
 
     <script>
       const targetEntity = document.querySelector('#my-target');
-      const htmlBtn = document.querySelector('#call-action-btn');
+      const btnGroup = document.querySelector('#btn-group');
+      const callBtn = document.querySelector('#call-btn');
+      const webBtn = document.querySelector('#web-btn');
 
-      // Jab camera photo ko dhoondh lega, tabhi button screen par dikhega
+      // Target milne par dono buttons dikhein
       targetEntity.addEventListener("targetFound", event => {
-        htmlBtn.style.display = "block";
+        btnGroup.style.display = "flex";
       });
 
-      // Jab camera photo se hat jayega, toh button chhup jayega
+      // Target hatne par buttons chhup jayein
       targetEntity.addEventListener("targetLost", event => {
-        htmlBtn.style.display = "none";
+        btnGroup.style.display = "none";
       });
 
-      // Button par click karne par dialer khulega
-      htmlBtn.addEventListener("click", () => {
-        window.location.href = "tel:+919999999999"; // Yahan apna number daal sakte hain
+      // Call button ka kaam
+      callBtn.addEventListener("click", () => {
+        window.location.href = "tel:+918129848820"; // Yahan apna number daalein
+      });
+
+      // Website button ka kaam
+      webBtn.addEventListener("click", () => {
+        window.location.href = "https://surabhkranti.blogspot.com/2026/04/images.html?zx=a1844619f6b7bcdf"; // Yahan apni website ya blog ka link daalein
       });
     </script>
   </body>
