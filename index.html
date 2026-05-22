@@ -9,23 +9,23 @@
       /* Buttons ko ek sath ek box mein rakhne ke liye container */
       .button-container {
         position: absolute;
-        bottom: 12%;
+        bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
         display: none; /* Shuru mein chhupa rahega */
         flex-direction: column;
-        gap: 12px; /* Dono buttons ke beech ki doori */
+        gap: 10px; /* Buttons ke beech ki doori */
         z-index: 999;
-        width: 200px;
+        width: 220px;
       }
 
-      /* Dono buttons ka common style */
+      /* Sabhi buttons ka common style */
       .ar-btn {
         padding: 12px 20px;
         color: white;
         border: none;
         border-radius: 25px;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: bold;
         cursor: pointer;
         box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
@@ -34,14 +34,20 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        text-decoration: none;
       }
 
-      /* Call button ka alag rang (Green) */
+      /* Call button (Normal Green) */
       .btn-call {
+        background-color: #2baf55;
+      }
+
+      /* WhatsApp button (Teal Green) */
+      .btn-whatsapp {
         background-color: #25D366;
       }
 
-      /* Website button ka alag rang (Blue/Professional) */
+      /* Website button (Blue) */
       .btn-web {
         background-color: #007AFF;
       }
@@ -49,9 +55,10 @@
   </head>
   <body>
 
-    <!-- Dono Buttons ka Container -->
+    <!-- Teenon Buttons ka Container -->
     <div id="btn-group" class="button-container">
       <button id="call-btn" class="ar-btn btn-call">📞 Call Me</button>
+      <button id="wa-btn" class="ar-btn btn-whatsapp">💬 WhatsApp</button>
       <button id="web-btn" class="ar-btn btn-web">🌐 Visit Website</button>
     </div>
 
@@ -69,9 +76,10 @@
       const targetEntity = document.querySelector('#my-target');
       const btnGroup = document.querySelector('#btn-group');
       const callBtn = document.querySelector('#call-btn');
+      const waBtn = document.querySelector('#wa-btn');
       const webBtn = document.querySelector('#web-btn');
 
-      // Target milne par dono buttons dikhein
+      // Target milne par buttons dikhein
       targetEntity.addEventListener("targetFound", event => {
         btnGroup.style.display = "flex";
       });
@@ -81,14 +89,20 @@
         btnGroup.style.display = "none";
       });
 
-      // Call button ka kaam
+      // 1. Call button ka kaam
       callBtn.addEventListener("click", () => {
-        window.location.href = "tel:+918129848820"; // Yahan apna number daalein
+        window.location.href = "tel:+918129848820"; // Yahan apna phone number dalein
       });
 
-      // Website button ka kaam
+      // 2. WhatsApp button ka kaam
+      waBtn.addEventListener("click", () => {
+        // Yahan apna country code (91) ke sath bina space ke number dalein
+        window.location.href = "https://wa.me/918129848820"; 
+      });
+
+      // 3. Website button ka kaam
       webBtn.addEventListener("click", () => {
-        window.location.href = "https://surabhkranti.blogspot.com/2026/04/images.html?zx=a1844619f6b7bcdf"; // Yahan apni website ya blog ka link daalein
+        window.location.href = "https://surabhkranti.blogspot.com/2026/04/images.html"; // Yahan apna blog/website link dalein
       });
     </script>
   </body>
