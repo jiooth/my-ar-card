@@ -89,20 +89,19 @@
         btnGroup.style.display = "none";
       });
 
-      // 1. Call button ka kaam
+      // 1. Call button ka kaam (Yeh iFrame ke andar bhi kaam karta hai)
       callBtn.addEventListener("click", () => {
-        window.location.href = "tel:+918129848820"; // Yahan apna phone number dalein
+        window.location.href = "tel:+919999999999"; // Apna number dalein
       });
 
-      // 2. WhatsApp button ka kaam
+      // 2. WhatsApp button ka kaam (Zabardasti naye tab mein kholne ke liye)
       waBtn.addEventListener("click", () => {
-        // Yahan apna country code (91) ke sath bina space ke number dalein
-        window.location.href = "https://wa.me/918129848820"; 
+        window.open("https://wa.me/919999999999", "_top"); // _top se iFrame toot jayega
       });
 
       // 3. Website button ka kaam
       webBtn.addEventListener("click", () => {
-        window.location.href = "https://surabhkranti.blogspot.com/2026/04/images.html"; // Yahan apna blog/website link dalein
+        window.open("https://yourwebsite.com", "_top"); // _top se website poore screen par khulegi
       });
     </script>
   </body>
