@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.0/dist/mindar-image-aframe.prod.js"></script>
+    
+    <style>
+      /* Hum ek invisible ya sunder button HTML se bana rahe hain jo AR ke upar sahi se click ho sake */
+      .ar-button {
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 24px;
+        background-color: #25D366;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: bold;
+        display: none; /* Shuru mein chhupa rahega */
+        z-index: 999;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HTML Button jo user ko screen par dikhega -->
+    <button id="call-action-btn" class="ar-button">📞 CALL ME NOW</button>
+
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- Jab camera photo ko pehchanega -->
+      <a-entity id="my-target" mindar-image-target="targetIndex: 0">
+        <!-- Photo ke upar sirf ek sunder 3D ring ya design dikhega tracker ke roop mein -->
+        <a-ring color="#25D366" radius-inner="0.4" radius-outer="0.5" position="0 0 0.1"
+                animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; dir: alternate; loop: true"></a-ring>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      const targetEntity = document.querySelector('#my-target');
+      const htmlBtn = document.querySelector('#call-action-btn');
+
+      // Jab camera photo ko dhoondh lega, tabhi button screen par dikhega
+      targetEntity.addEventListener("targetFound", event => {
+        htmlBtn.style.display = "block";
+      });
+
+      // Jab camera photo se hat jayega, toh button chhup jayega
+      targetEntity.addEventListener("targetLost", event => {
+        htmlBtn.style.display = "none";
+      });
+
+      // Button par click karne par dialer khulega
+      htmlBtn.addEventListener("click", () => {
+        window.location.href = "tel:+919999999999"; // Yahan apna number daal sakte hain
+      });
+    </script>
+  </body>
+</html>
